@@ -1,7 +1,7 @@
 package processor
 
 import (
-    "testing"
+	"testing"
 )
 
 func TestDefaultLoggerLogsWarnings(t *testing.T) {
@@ -10,4 +10,3 @@ func TestDefaultLoggerLogsWarnings(t *testing.T) {
 		t.FailNow()
 	}
 }
-

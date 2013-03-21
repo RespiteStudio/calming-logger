@@ -1,72 +1,72 @@
 package processor
 
 import (
+	"encoding/json"
 	"log"
 	"os"
-	"encoding/json"
 	"runtime/debug"
 )
 
 type LoggerType int8
 
 const (
-	EMERGENCY LoggerType = iota
-	ALERT LoggerType = iota
-	CRITICAL LoggerType = iota
-	ERROR LoggerType = iota
-	WARNING LoggerType = iota
-	NOTICE LoggerType = iota
+	EMERGENCY     LoggerType = iota
+	ALERT         LoggerType = iota
+	CRITICAL      LoggerType = iota
+	ERROR         LoggerType = iota
+	WARNING       LoggerType = iota
+	NOTICE        LoggerType = iota
 	INFORMATIONAL LoggerType = iota
-	DEBUG LoggerType = iota
+	DEBUG         LoggerType = iota
 )
 
 type LoggerConfig struct {
-	Engine *log.Logger
+	Engine     *log.Logger
 	LevelToLog LoggerType
 }
 
 type logMessage struct {
-	Level LoggerType
-	Message string
+	Level      LoggerType
+	Message    string
 	StackTrace string
 }
 
 type logFunction struct {
-	Level LoggerType
-	Message string
+	Level      LoggerType
+	Message    string
 	StackTrace string
-	Caller string
-	Params []interface{}
+	Caller     string
+	Params     []interface{}
 }
 
 type logMethod struct {
-	Level LoggerType
-	Message string
+	Level      LoggerType
+	Message    string
 	StackTrace string
-	Object string
-	Caller string
-	Params []interface{}
+	Object     string
+	Caller     string
+	Params     []interface{}
 }
 
 type logBool struct {
-	Level LoggerType
-	Message string
+	Level      LoggerType
+	Message    string
 	StackTrace string
-	Name string
-	Value bool
+	Name       string
+	Value      bool
 }
 
 type logGeneric struct {
-	Level LoggerType
-	Message string
+	Level      LoggerType
+	Message    string
 	StackTrace string
-	Data []interface{}
+	Data       []interface{}
 }
 
 type LoggerMessage struct {
-	config *LoggerConfig
-	level LoggerType // Log Level Type
-	additional string // Log Message
+	config     *LoggerConfig
+	level      LoggerType // Log Level Type
+	additional string     // Log Message
 }
 
 // Additional information for logging message.
@@ -118,7 +118,7 @@ func (msg *LoggerMessage) do(data interface{}) {
 		// well.
 		return
 	}
-	
+
 	if msg.level == EMERGENCY {
 		// All hell has escaped and only the Hero can save us now!
 		// GAME OVER.
@@ -126,14 +126,14 @@ func (msg *LoggerMessage) do(data interface{}) {
 		msg.config.Engine.Fatalln(message)
 		return // This is dead code. Fatalln will exit. Keep anyway for clarity of intent.
 	}
-	
+
 	if msg.level < WARNING {
 		// Not sure if Warning should included here.
 		// Meant to print line in log.
 		msg.config.Engine.Panicln(message)
 		return // This is dead code. Panicln will panic, which will return execution to caller.
 	}
-	
+
 	msg.config.Engine.Println(message)
 }
 
