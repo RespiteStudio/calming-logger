@@ -6,7 +6,7 @@ import (
 
 func TestDefaultLoggerLogsWarnings(t *testing.T) {
 	logger := DefaultLogger()
-	if logger.config.LevelToLog != WARNING {
+	if logger.config.LevelToLog != ERROR {
 		t.FailNow()
 	}
 }
